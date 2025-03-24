@@ -72,6 +72,7 @@
                                     <td>{{c.food_consumed.protein}}</td>
                                     <td>{{c.food_consumed.fats}}</td>
                                     <td>{{c.food_consumed.calories}}</td>
+                                    <td><a href="{% url 'delete_item' c.id %}" class="btn btn-danger">Remove</a></td>
                                 </tr>
 
                                 {% endfor %}
@@ -107,9 +108,10 @@
 </body>
 <script>
    var ctx = document.getElementById('myChart').getContext('2d');
-   var total_carbs = {{total_carbs | default:0}};
-    var total_protein = {{total_protein | default:0}};
-    var total_fats = {{total_fats | default:0}};
+   var total = {{total_carbs | default:0}} + {{total_protein | default:0}} + {{total_fats | default:0}};
+   var total_carbs = Math.round({{total_carbs | default:0}}/total * 100);
+    var total_protein = Math.round({{total_protein | default:0}}/total * 100);
+    var total_fats = Math.round({{total_fats | default:0}}/total * 100);
     var myChart = new Chart(ctx, {
     type: 'doughnut',
     data: {

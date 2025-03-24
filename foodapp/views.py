@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.template.defaultfilters import title
+
 from .models import Food, Consume
 # Create your views here.
 
@@ -37,3 +39,9 @@ def get_user_nutrition(user):
         "calories": calories,
         "progress_percentage":progress_percentage,
     }
+def delete_item(request, id):
+    item= Consume.objects.get(id=id)
+    if request.method == 'POST':
+        item.delete()
+        return redirect('/')
+    return render(request, 'foodapp/delete.html')
